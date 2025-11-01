@@ -80,7 +80,7 @@ const Footer = () => {
               </a>
             </div>
             <div className="flex flex-col gap-2 text-black text-sm mt-2">
-              <a href="mailto:support@projectpilot.in" className="flex items-center gap-2 hover:text-blue-500">
+              <a href="mailto:support@projectpilot.in" className="flex items-center gap-2 hover:text-black/80">
                 <FaEnvelope className="text-base" /> support@projectpilot.in
               </a>
             </div>

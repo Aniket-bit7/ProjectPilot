@@ -12,7 +12,7 @@ const CTA = () => {
         <span className="gradient-title1 font-semibold">ProjectPilot</span> to
         streamline their projects and boost productivity.
       </p>
-      <Link to="/project">
+      <Link to="/layout">
         <motion.button
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}

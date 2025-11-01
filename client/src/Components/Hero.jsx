@@ -37,7 +37,7 @@ const Hero = () => {
 
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm sm:text-base">
           <button
-            onClick={() => navigate("/project")}
+            onClick={() => navigate("/layout")}
             className="bg-black/80 text-white px-10 py-3 rounded-lg hover:scale-105 active:scale-95 transition cursor-pointer"
           >
             Get Started
