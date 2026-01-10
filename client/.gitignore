@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 
 
-// ignore assets 
 
-src/assets/

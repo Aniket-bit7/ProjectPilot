@@ -1,5 +1,5 @@
-import { assets } from "../assets/assets";
 import CardSwap, { Card } from "./CardSwap";
+import main_img from "../../public/black-white-gradient-background-with-white-black-background_1065176-7753.jpg"
 
 const FEATURES = [
   {
@@ -51,7 +51,7 @@ const Cards = () => {
                 </h3>
 
                 <img
-                  src={assets.main_img}
+                  src={main_img}
                   alt={item.title}
                   className="rounded-lg mb-2 h-[200px] object-cover"
                 />
@@ -76,7 +76,7 @@ const Cards = () => {
             </h3>
 
             <img
-              src={assets.main_img}
+              src={main_img}
               alt={item.title}
               className="mb-3 w-full h-[160px] object-cover rounded-lg"
             />

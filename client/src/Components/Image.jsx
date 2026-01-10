@@ -1,10 +1,10 @@
-import { assets } from "../assets/assets";
+import main_img from "../../public/black-white-gradient-background-with-white-black-background_1065176-7753.jpg"
 const Image = () => {
   return (
     <div className="relative z-10 w-full flex justify-center px-6 sm:px-16 xl:px-32">
       <div className="w-full max-w-5xl border border-gray-300 rounded-2xl shadow-md p-2 sm:p-3 bg-white">
         <img
-          src={assets.main_img}
+          src={main_img}
           alt="Project Management Illustration"
           className="w-full h-auto object-contain rounded-xl"
         />

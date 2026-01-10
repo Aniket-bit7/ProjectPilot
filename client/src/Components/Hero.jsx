@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Particles from "./Particles";
-import { assets } from "../assets/assets";
+import user_group_icon from "../../public/user_group.png"
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const Hero = () => {
         </div>
 
         <div className="flex items-center gap-4 mt-8 mx-auto text-gray-600">
-          <img src={assets.users_group} className="h-8"/> Trusted by many people
+          <img src={user_group_icon} className="h-8"/> Trusted by many people
         </div>
 
       </div>
