@@ -39,8 +39,8 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/about" className="hover:text-black flex items-center">
-                    <span className="mr-2 gradient-title">›</span>About
+                  <Link to="https://github.com/Aniket-bit7/EdgeWorks" className="hover:text-black flex items-center">
+                    <span className="mr-2 gradient-title">›</span>Github
                   </Link>
                 </li>
               </ul>

@@ -29,8 +29,8 @@ const Navbar = () => {
           <Link to="/" className="hover:underline">
             Home
           </Link>
-          <Link to="/https://github.com/Aniket-bit7/ProjectPilot" className="hover:underline">
-            About
+          <Link to="https://github.com/Aniket-bit7/ProjectPilot" className="hover:underline">
+            Github
           </Link>
           <Link to="/contact" className="hover:underline">
             Contact Us
@@ -69,11 +69,11 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/about"
+              to="https://github.com/Aniket-bit7/ProjectPilot"
               onClick={() => setOpen(false)}
               className="hover:underline"
             >
-              About
+              Github
             </Link>
             <Link
               to="/contact"
