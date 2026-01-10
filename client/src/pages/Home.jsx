@@ -2,7 +2,7 @@ import Cards from "../Components/Cards"
 import CTA from "../Components/CTA"
 import Footer from "../Components/Footer"
 import Hero from "../Components/Hero"
-import Image from "../Components/image"
+import Image from "../Components/Image"
 import Navbar from "../Components/Navbar"
 import Testimonial from "../Components/Testimonial"
 
