@@ -26,4 +26,4 @@ dist-ssr
 
 // ignore assets 
 
-client/src/assets/
+src/assets/
