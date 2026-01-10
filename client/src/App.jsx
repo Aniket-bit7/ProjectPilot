@@ -3,6 +3,10 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
+import Team from "./pages/Team";
+import Projects from "./pages/Projects";
+import ProjectDetails from "./pages/ProjectDetails";
+import TaskDetails from "./pages/TaskDetails";
 
 const App = () => {
   return (

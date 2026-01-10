@@ -13,8 +13,8 @@ import {
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const menuItems = [
     { name: "Dashboard", href: "/layout", icon: LayoutDashboardIcon },
-    { name: "Projects", href: "/projects", icon: FolderOpenIcon },
-    { name: "Team", href: "/team", icon: UsersIcon },
+    { name: "Projects", href: "/layout/projects", icon: FolderOpenIcon },
+    { name: "Team", href: "/layout/team", icon: UsersIcon },
   ];
 
   const sidebarRef = useRef(null);
