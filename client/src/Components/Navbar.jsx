@@ -29,7 +29,7 @@ const Navbar = () => {
           <Link to="/" className="hover:underline">
             Home
           </Link>
-          <Link to="/about" className="hover:underline">
+          <Link to="/https://github.com/Aniket-bit7/ProjectPilot" className="hover:underline">
             About
           </Link>
           <Link to="/contact" className="hover:underline">
@@ -58,7 +58,7 @@ const Navbar = () => {
             }`}
           />
         </button>
-        
+
         {open && (
           <div className="absolute top-full left-0 w-full mt-3 rounded-2xl border border-gray-700 bg-white shadow-lg py-4 flex flex-col items-center gap-4 lg:hidden">
             <Link
