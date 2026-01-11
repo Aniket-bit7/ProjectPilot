@@ -1,20 +1,30 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Navbar_2 from "../Components/Navbar_2";
 import Sidebar from "../Components/Sidebar";
 import { loadTheme } from "../features/themeSlice";
 import { Loader2Icon } from "lucide-react";
+import { useUser, SignIn } from "@clerk/clerk-react";
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState();
   const { loading } = useSelector((state) => state.workspace);
   const dispatch = useDispatch();
+  const { user, isLoaded } = useUser();
 
   // Initial load of theme
   useEffect(() => {
     dispatch(loadTheme());
   }, []);
+
+  if (!user) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-white dark:bg-zinc-950">
+        <SignIn />
+      </div>
+    );
+  }
 
   if (loading)
     return (

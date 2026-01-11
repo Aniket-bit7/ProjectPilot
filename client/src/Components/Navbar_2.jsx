@@ -1,8 +1,8 @@
-import { SearchIcon, PanelLeft } from "lucide-react";
+import { SearchIcon, PanelLeft} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../features/themeSlice";
 import { MoonIcon, SunIcon } from "lucide-react";
-import profile_img_a from "../../public/profile_img_a.svg"
+import { UserButton } from "@clerk/clerk-react";
 
 const Navbar_2 = ({ setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -47,11 +47,7 @@ const Navbar_2 = ({ setIsSidebarOpen }) => {
           </button>
 
           {/* User Button */}
-          <img
-            src={profile_img_a}
-            alt="User Avatar"
-            className="size-7 rounded-full"
-          />
+          <UserButton/>
         </div>
       </div>
     </div>
