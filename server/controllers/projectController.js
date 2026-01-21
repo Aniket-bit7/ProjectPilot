@@ -1,4 +1,4 @@
-import { prisma } from "../configs/prisma.js"
+import  prisma  from "../configs/prisma.js"
 
 export const createProject = async (req, res) => {
   try {
