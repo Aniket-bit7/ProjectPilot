@@ -27,10 +27,8 @@ app.use(
   })
 );
 
-app.options("*", cors());
 
 app.use(clerkMiddleware());
-
 
 app.get("/", (req, res) => {
   res.send("Server is Live");
@@ -42,7 +40,6 @@ app.use("/api/workspaces", protect, workspaceRouter);
 app.use("/api/projects", protect, projectRouter);
 app.use("/api/tasks", protect, taskRouter);
 app.use("/api/comments", protect, commentRouter);
-
 
 const PORT = process.env.PORT || 5001;
 
