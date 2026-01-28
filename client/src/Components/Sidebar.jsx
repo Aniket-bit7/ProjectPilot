@@ -9,8 +9,10 @@ import {
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
+import { useClerk } from "@clerk/clerk-react";
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  const { openUserProfile } = useClerk();
   const menuItems = [
     { name: "Dashboard", href: "/layout", icon: LayoutDashboardIcon },
     { name: "Projects", href: "/layout/projects", icon: FolderOpenIcon },
@@ -47,9 +49,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 key={item.name}
                 className={({ isActive }) =>
                   `flex items-center gap-3 py-2 px-4 text-gray-800 dark:text-zinc-100 cursor-pointer rounded transition-all  ${
-                    isActive
-                      ? "bg-gray-100 dark:bg-zinc-900 dark:bg-gradient-to-br dark:from-zinc-800 dark:to-zinc-800/50  dark:ring-zinc-800"
-                      : "hover:bg-gray-50 dark:hover:bg-zinc-800/60"
+                    isActive ?
+                      "bg-gray-100 dark:bg-zinc-900 dark:bg-gradient-to-br dark:from-zinc-800 dark:to-zinc-800/50  dark:ring-zinc-800"
+                    : "hover:bg-gray-50 dark:hover:bg-zinc-800/60"
                   }`
                 }
               >
@@ -57,7 +59,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 <p className="text-sm truncate">{item.name}</p>
               </NavLink>
             ))}
-            <button className="flex w-full items-center gap-3 py-2 px-4 text-gray-800 dark:text-zinc-100 cursor-pointer rounded hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition-all">
+            <button onClick={openUserProfile} className="flex w-full items-center gap-3 py-2 px-4 text-gray-800 dark:text-zinc-100 cursor-pointer rounded hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition-all">
               <SettingsIcon size={16} />
               <p className="text-sm truncate">Settings</p>
             </button>
