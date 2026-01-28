@@ -1,23 +1,24 @@
 import CardSwap, { Card } from "./CardSwap";
+import { manageTeams, tasksTracking, notifications } from "../assets/assets.js";
 
 const FEATURES = [
   {
     title: "Manage Projects & Teams",
     description:
       "Create and manage multiple projects, invite team members, and keep everyone aligned in one place.",
-    image: "../../public/Screenshot 2026-01-29 at 12.01.12 AM.png",
+    image: manageTeams,
   },
   {
     title: "Tasks & Progress Tracking",
     description:
       "Assign tasks, track progress, and ensure timely delivery with clear visibility for the whole team.",
-    image: "../../public/Screenshot 2026-01-29 at 12.00.41 AM.png",
+    image: tasksTracking,
   },
   {
     title: "Smart Notifications",
     description:
       "Get automatic email alerts and due-date reminders so your team never misses an important update.",
-    image: "../../public/Screenshot 2026-01-29 at 12.05.27 AM.png",
+    image: notifications,
   },
 ];
 
