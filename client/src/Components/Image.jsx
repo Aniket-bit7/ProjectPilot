@@ -1,4 +1,4 @@
-import main_img from "../../public/black-white-gradient-background-with-white-black-background_1065176-7753.jpg"
+import main_img from "../../public/Screenshot 2026-01-28 at 11.32.30 PM.png"
 const Image = () => {
   return (
     <div className="relative z-10 w-full flex justify-center px-6 sm:px-16 xl:px-32">

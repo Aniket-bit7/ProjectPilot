@@ -1,29 +1,30 @@
 import CardSwap, { Card } from "./CardSwap";
-import main_img from "../../public/black-white-gradient-background-with-white-black-background_1065176-7753.jpg"
 
 const FEATURES = [
   {
     title: "Manage Projects & Teams",
     description:
-      "Create and manage multiple projects, invite team members, and keep everyone aligned in one place."
+      "Create and manage multiple projects, invite team members, and keep everyone aligned in one place.",
+    image: "../../public/Screenshot 2026-01-29 at 12.01.12 AM.png",
   },
   {
     title: "Tasks & Progress Tracking",
     description:
-      "Assign tasks, track progress, and ensure timely delivery with clear visibility for the whole team."
+      "Assign tasks, track progress, and ensure timely delivery with clear visibility for the whole team.",
+    image: "../../public/Screenshot 2026-01-29 at 12.00.41 AM.png",
   },
   {
     title: "Smart Notifications",
     description:
-      "Get automatic email alerts and due-date reminders so your team never misses an important update."
-  }
+      "Get automatic email alerts and due-date reminders so your team never misses an important update.",
+    image: "../../public/Screenshot 2026-01-29 at 12.05.27 AM.png",
+  },
 ];
 
 const Cards = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center px-6 sm:px-12 xl:px-32 py-16 mt-24 sm:mt-32 lg:mt-40">
       <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-10 text-center lg:text-left">
-
         <div className="lg:w-1/3 flex flex-col justify-center items-center lg:items-start">
           <h2 className="text-3xl sm:text-4xl font-semibold leading-snug mb-4">
             Want to know about our Features?
@@ -51,7 +52,7 @@ const Cards = () => {
                 </h3>
 
                 <img
-                  src={main_img}
+                  src={item.image}
                   alt={item.title}
                   className="rounded-lg mb-2 h-[200px] object-cover"
                 />
@@ -76,7 +77,7 @@ const Cards = () => {
             </h3>
 
             <img
-              src={main_img}
+              src={item.image}
               alt={item.title}
               className="mb-3 w-full h-[160px] object-cover rounded-lg"
             />

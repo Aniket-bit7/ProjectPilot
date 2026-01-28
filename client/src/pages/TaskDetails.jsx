@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CalendarIcon, MessageCircle, PenIcon } from "lucide-react";
-import profile_img_a from "../../public/profile_img_a.svg";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import api from "../configs/api";
 
