@@ -120,6 +120,65 @@ export const updateProject = async (req, res) => {
   }
 };
 
+export const deleteProject = async (req, res) => {
+  try {
+    const { userId } = await req.auth();
+    const { projectId } = req.params;
+
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+      include: {
+        workspace: {
+          include: {
+            members: true,
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const isAdmin = project.workspace.members.some(
+      (member) => member.userId === userId && member.role === "ADMIN"
+    );
+
+    const isTeamLead = project.team_lead === userId;
+
+    if (!isAdmin && !isTeamLead) {
+      return res.status(403).json({
+        message: "You don't have permission to delete this project",
+      });
+    }
+
+    await prisma.comment.deleteMany({
+      where: {
+        task: {
+          projectId,
+        },
+      },
+    });
+
+    await prisma.task.deleteMany({
+      where: { projectId },
+    });
+
+    await prisma.projectMember.deleteMany({
+      where: { projectId },
+    });
+
+    await prisma.project.delete({
+      where: { id: projectId },
+    });
+
+    res.json({ message: "Project deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 export const addMember = async (req, res) => {
   try {

@@ -7,10 +7,12 @@ import Team from "./pages/Team";
 import Projects from "./pages/Projects";
 import ProjectDetails from "./pages/ProjectDetails";
 import TaskDetails from "./pages/TaskDetails";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <>
+    <Toaster/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />

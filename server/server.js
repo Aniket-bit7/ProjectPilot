@@ -20,6 +20,7 @@ app.use(
     origin: [
       "https://project-pilot-phi.vercel.app",
       "http://localhost:5173",
+      "http://localhost:5174",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

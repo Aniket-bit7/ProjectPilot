@@ -6,9 +6,10 @@ import {
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 function MyTasksSidebar() {
-  const user = { id: "user_1" };
+  const {user} = useUser();
 
   const { currentWorkspace } = useSelector((state) => state.workspace);
   const [showMyTasks, setShowMyTasks] = useState(false);
@@ -35,7 +36,7 @@ function MyTasksSidebar() {
     const currentWorkspaceTasks = currentWorkspace.projects.flatMap(
       (project) => {
         return project.tasks.filter((task) => task?.assignee?.id === userId);
-      }
+      },
     );
 
     setMyTasks(currentWorkspaceTasks);
@@ -60,22 +61,20 @@ function MyTasksSidebar() {
             {myTasks.length}
           </span>
         </div>
-        {showMyTasks ? (
+        {showMyTasks ?
           <ChevronDownIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-        ) : (
-          <ChevronRightIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-        )}
+        : <ChevronRightIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+        }
       </div>
 
       {showMyTasks && (
         <div className="mt-2 pl-2">
           <div className="space-y-1">
-            {myTasks.length === 0 ? (
+            {myTasks.length === 0 ?
               <div className="px-3 py-2 text-xs text-gray-500 dark:text-zinc-500 text-center">
                 No tasks assigned
               </div>
-            ) : (
-              myTasks.map((task, index) => (
+            : myTasks.map((task, index) => (
                 <Link
                   key={index}
                   to={`/layout/taskDetails?projectId=${task.projectId}&taskId=${task.id}`}
@@ -84,7 +83,7 @@ function MyTasksSidebar() {
                   <div className="flex items-center gap-2 px-3 py-2 w-full min-w-0">
                     <div
                       className={`w-2 h-2 rounded-full ${getTaskStatusColor(
-                        task.status
+                        task.status,
                       )} flex-shrink-0`}
                     />
                     <div className="flex-1 min-w-0">
@@ -98,7 +97,7 @@ function MyTasksSidebar() {
                   </div>
                 </Link>
               ))
-            )}
+            }
           </div>
         </div>
       )}
