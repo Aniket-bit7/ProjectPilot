@@ -56,6 +56,27 @@ const workspaceSlice = createSlice({
         w.id === state.currentWorkspace.id ? { ...w, projects: w.projects.concat(action.payload) } : w
       );
     },
+
+    deleteProject: (state, action) => {
+      const projectId = action.payload;
+
+      state.currentWorkspace.projects =
+        state.currentWorkspace.projects.filter(
+          (project) => project.id !== projectId
+        );
+
+      state.workspaces = state.workspaces.map((w) =>
+        w.id === state.currentWorkspace.id
+          ? {
+            ...w,
+            projects: w.projects.filter(
+              (project) => project.id !== projectId
+            ),
+          }
+          : w
+      );
+    },
+
     addTask: (state, action) => {
 
       state.currentWorkspace.projects = state.currentWorkspace.projects.map((p) => {
@@ -141,5 +162,5 @@ const workspaceSlice = createSlice({
   }
 });
 
-export const { setWorkspaces, setCurrentWorkspace, addWorkspace, updateWorkspace, deleteWorkspace, addProject, addTask, updateTask, deleteTask } = workspaceSlice.actions;
+export const { setWorkspaces, setCurrentWorkspace, addWorkspace, updateWorkspace, deleteWorkspace, addProject, deleteProject, addTask, updateTask, deleteTask, } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

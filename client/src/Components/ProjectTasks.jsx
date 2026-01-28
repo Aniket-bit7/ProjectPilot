@@ -14,6 +14,8 @@ import {
   XIcon,
   Zap,
 } from "lucide-react";
+import { useAuth } from "@clerk/clerk-react";
+import api from "../configs/api.js";
 
 const typeIcons = {
   BUG: { icon: Bug, color: "text-red-600 dark:text-red-400" },
@@ -42,6 +44,7 @@ const priorityTexts = {
 };
 
 const ProjectTasks = ({ tasks }) => {
+  const { getToken } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTasks, setSelectedTasks] = useState([]);
@@ -56,7 +59,7 @@ const ProjectTasks = ({ tasks }) => {
   const assigneeList = useMemo(
     () =>
       Array.from(new Set(tasks.map((t) => t.assignee?.name).filter(Boolean))),
-    [tasks]
+    [tasks],
   );
 
   const filteredTasks = useMemo(() => {
@@ -79,9 +82,13 @@ const ProjectTasks = ({ tasks }) => {
   const handleStatusChange = async (taskId, newStatus) => {
     try {
       toast.loading("Updating status...");
+      const token = await getToken();
 
-      //  Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await api.put(
+        `/api/tasks/${taskId}`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
 
       let updatedTask = structuredClone(tasks.find((t) => t.id === taskId));
       updatedTask.status = newStatus;
@@ -96,25 +103,57 @@ const ProjectTasks = ({ tasks }) => {
   };
 
   const handleDelete = async () => {
-    try {
-      const confirm = window.confirm(
-        "Are you sure you want to delete the selected tasks?"
-      );
-      if (!confirm) return;
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-medium">
+            Are you sure you want to delete the selected tasks?
+          </p>
 
-      toast.loading("Deleting tasks...");
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1 text-sm rounded border"
+            >
+              Cancel
+            </button>
 
-      //  Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+            <button
+              onClick={async () => {
+                toast.dismiss(t.id);
 
-      dispatch(deleteTask(selectedTasks));
+                try {
+                  const token = await getToken();
+                  toast.loading("Deleting tasks...", { id: "deleteTasks" });
 
-      toast.dismissAll();
-      toast.success("Tasks deleted successfully");
-    } catch (error) {
-      toast.dismissAll();
-      toast.error(error?.response?.data?.message || error.message);
-    }
+                  await api.post(
+                    "/api/tasks/delete",
+                    { tasksIds: selectedTasks },
+                    { headers: { Authorization: `Bearer ${token}` } },
+                  );
+
+                  dispatch(deleteTask(selectedTasks));
+
+                  toast.success("Tasks deleted successfully", {
+                    id: "deleteTasks",
+                  });
+                } catch (error) {
+                  toast.error(error?.response?.data?.message || error.message, {
+                    id: "deleteTasks",
+                  });
+                }
+              }}
+              className="px-3 py-1 text-sm rounded bg-red-600 text-white"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: Infinity, // stays until user clicks
+      },
+    );
   };
 
   return (
@@ -202,9 +241,9 @@ const ProjectTasks = ({ tasks }) => {
                   <th className="pl-2 pr-1">
                     <input
                       onChange={() =>
-                        selectedTasks.length > 1
-                          ? setSelectedTasks([])
-                          : setSelectedTasks(tasks.map((t) => t.id))
+                        selectedTasks.length > 1 ?
+                          setSelectedTasks([])
+                        : setSelectedTasks(tasks.map((t) => t.id))
                       }
                       checked={selectedTasks.length === tasks.length}
                       type="checkbox"
@@ -220,7 +259,7 @@ const ProjectTasks = ({ tasks }) => {
                 </tr>
               </thead>
               <tbody>
-                {filteredTasks.length > 0 ? (
+                {filteredTasks.length > 0 ?
                   filteredTasks.map((task) => {
                     const { icon: Icon, color } = typeIcons[task.type] || {};
                     const { background, prioritycolor } =
@@ -231,7 +270,7 @@ const ProjectTasks = ({ tasks }) => {
                         key={task.id}
                         onClick={() =>
                           navigate(
-                            `/layout/taskDetails?projectId=${task.projectId}&taskId=${task.id}`
+                            `/layout/taskDetails?projectId=${task.projectId}&taskId=${task.id}`,
                           )
                         }
                         className=" border-t border-zinc-300 dark:border-zinc-800 group hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all cursor-pointer"
@@ -244,11 +283,11 @@ const ProjectTasks = ({ tasks }) => {
                             type="checkbox"
                             className="size-3 accent-zinc-600 dark:accent-zinc-500"
                             onChange={() =>
-                              selectedTasks.includes(task.id)
-                                ? setSelectedTasks(
-                                    selectedTasks.filter((i) => i !== task.id)
-                                  )
-                                : setSelectedTasks((prev) => [...prev, task.id])
+                              selectedTasks.includes(task.id) ?
+                                setSelectedTasks(
+                                  selectedTasks.filter((i) => i !== task.id),
+                                )
+                              : setSelectedTasks((prev) => [...prev, task.id])
                             }
                             checked={selectedTasks.includes(task.id)}
                           />
@@ -305,8 +344,7 @@ const ProjectTasks = ({ tasks }) => {
                       </tr>
                     );
                   })
-                ) : (
-                  <tr>
+                : <tr>
                     <td
                       colSpan="7"
                       className="text-center text-zinc-500 dark:text-zinc-400 py-6"
@@ -314,14 +352,14 @@ const ProjectTasks = ({ tasks }) => {
                       No tasks found for the selected filters.
                     </td>
                   </tr>
-                )}
+                }
               </tbody>
             </table>
           </div>
 
           {/* Mobile/Card View */}
           <div className="lg:hidden flex flex-col gap-4">
-            {filteredTasks.length > 0 ? (
+            {filteredTasks.length > 0 ?
               filteredTasks.map((task) => {
                 const { icon: Icon, color } = typeIcons[task.type] || {};
                 const { background, prioritycolor } =
@@ -340,11 +378,11 @@ const ProjectTasks = ({ tasks }) => {
                         type="checkbox"
                         className="size-4 accent-zinc-600 dark:accent-zinc-500"
                         onChange={() =>
-                          selectedTasks.includes(task.id)
-                            ? setSelectedTasks(
-                                selectedTasks.filter((i) => i !== task.id)
-                              )
-                            : setSelectedTasks((prev) => [...prev, task.id])
+                          selectedTasks.includes(task.id) ?
+                            setSelectedTasks(
+                              selectedTasks.filter((i) => i !== task.id),
+                            )
+                          : setSelectedTasks((prev) => [...prev, task.id])
                         }
                         checked={selectedTasks.includes(task.id)}
                       />
@@ -397,11 +435,10 @@ const ProjectTasks = ({ tasks }) => {
                   </div>
                 );
               })
-            ) : (
-              <p className="text-center text-zinc-500 dark:text-zinc-400 py-4">
+            : <p className="text-center text-zinc-500 dark:text-zinc-400 py-4">
                 No tasks found for the selected filters.
               </p>
-            )}
+            }
           </div>
         </div>
       </div>

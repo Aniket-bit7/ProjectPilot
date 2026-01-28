@@ -1,5 +1,6 @@
 import { Inngest } from "inngest";
 import prisma from "../configs/prisma.js";
+import sendEmail from "../configs/nodeMailer.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "project-pilot" });
@@ -219,6 +220,7 @@ const sendBookingConfirmationEmail = inngest.createFunction(
       });
     }
   });
+
 export const functions = [
   syncUserCreation,
   syncUserDeletion,
