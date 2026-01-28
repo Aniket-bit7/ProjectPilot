@@ -4,14 +4,17 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CalendarIcon, MessageCircle, PenIcon } from "lucide-react";
-import profile_img_a from "../../public/profile_img_a.svg"
+import profile_img_a from "../../public/profile_img_a.svg";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import api from "../configs/api";
 
 const TaskDetails = () => {
+  const { getToken } = useAuth();
+  const { user } = useUser();
   const [searchParams] = useSearchParams();
   const projectId = searchParams.get("projectId");
   const taskId = searchParams.get("taskId");
 
-  const user = { id: "user_1" };
   const [task, setTask] = useState(null);
   const [project, setProject] = useState(null);
   const [comments, setComments] = useState([]);
@@ -20,7 +23,18 @@ const TaskDetails = () => {
 
   const { currentWorkspace } = useSelector((state) => state.workspace);
 
-  const fetchComments = async () => {};
+  const fetchComments = async () => {
+    if (!taskId) return;
+    try {
+      const token = await getToken();
+      const { data } = await api.get(`/api/comments/${taskId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setComments(data.comments || []);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
+  };
 
   const fetchTaskDetails = async () => {
     setLoading(true);
@@ -43,17 +57,13 @@ const TaskDetails = () => {
     try {
       toast.loading("Adding comment...");
 
-      //  Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      const dummyComment = {
-        id: Date.now(),
-        user: { id: 1, name: "User", image: profile_img_a },
-        content: newComment,
-        createdAt: new Date(),
-      };
-
-      setComments((prev) => [...prev, dummyComment]);
+      const token = await getToken();
+      const { data } = await api.post(
+        `/api/comments`,
+        { taskId: task.id, content: newComment },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setComments((prev) => [...prev, data.comment]);
       setNewComment("");
       toast.dismissAll();
       toast.success("Comment added.");
@@ -98,7 +108,7 @@ const TaskDetails = () => {
           </h2>
 
           <div className="flex-1 md:overflow-y-scroll no-scrollbar">
-            {comments.length > 0 ? (
+            {comments.length > 0 ?
               <div className="flex flex-col gap-4 mb-6 mr-2">
                 {comments.map((comment) => (
                   <div
@@ -120,7 +130,7 @@ const TaskDetails = () => {
                         •{" "}
                         {format(
                           new Date(comment.createdAt),
-                          "dd MMM yyyy, HH:mm"
+                          "dd MMM yyyy, HH:mm",
                         )}
                       </span>
                     </div>
@@ -130,11 +140,10 @@ const TaskDetails = () => {
                   </div>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-600 dark:text-zinc-500 mb-4 text-sm">
+            : <p className="text-gray-600 dark:text-zinc-500 mb-4 text-sm">
                 No comments yet. Be the first!
               </p>
-            )}
+            }
           </div>
 
           {/* Add Comment */}

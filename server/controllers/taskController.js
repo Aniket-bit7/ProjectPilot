@@ -23,6 +23,19 @@ export const createTask = async (req, res) => {
     else if (assigneeId && !project.members.find((member) => member.user.id === assigneeId)) {
       return res.status(403).json({ message: "assignee is not a member of the project / workspace" });
     }
+    if (!due_date) {
+      return res.status(400).json({
+        message: "Please set a due date for the task.",
+      });
+    }
+
+    const parsedDueDate = new Date(due_date);
+
+    if (isNaN(parsedDueDate.getTime())) {
+      return res.status(400).json({
+        message: "Invalid due date format.",
+      });
+    }
 
     const task = await prisma.task.create({
       data: {
@@ -33,7 +46,7 @@ export const createTask = async (req, res) => {
         priority,
         assigneeId,
         status,
-        due_date: new Date(due_date),
+        due_date: parsedDueDate,
       }
     });
 
